@@ -1,17 +1,5 @@
 #!/opt/local/bin/python2.7
 
-#####################################################################################################################
-#  Refactoring a RAT/netcat emulation script from the book Black Hat Python.
-#  The code was a bit dirty so I'm changing a few things around. 
-#  First thing done was to remove a buggy socket.recv() call. 
-#  Up next: 
-#  1) Refactoring code to remove reliance of functions on global vars, and instead calling them with **kwargs/dicts+
-#     adding some defaults to the functions definitions 
-#  2) adding new features:
-#            i.  local port forwarding/proxying
-#            ii. post exploitation enumeration fuctions
-#####################################################################################################################
-
 import sys
 import socket
 import getopt
@@ -45,12 +33,13 @@ def run_command(command):
 
 
 # this handles incoming client connections
-def client_handler(client_socket, command="", execute="", upload_destination=""):
+def client_handler(client_socket='', command='', execute='', upload_destination=''):
+    print "upload destination is", upload_destination
     # check for upload
-    if len(upload_destination):
+    if upload_destination:
 
         # read in all of the bytes and write to our destination
-        file_buffer = ""
+        file_buffer = ''
 
         # keep reading data until none is available
         while True:
@@ -73,7 +62,7 @@ def client_handler(client_socket, command="", execute="", upload_destination="")
             client_socket.send("Failed to save file to %s\r\n" % upload_destination)
 
     # check for command execution
-    if len(execute):
+    if execute:
         # run the command
         output = run_command(execute)
 
@@ -99,33 +88,38 @@ def client_handler(client_socket, command="", execute="", upload_destination="")
 
 
 # this is for incoming connections
-def server_loop(port, execute="", command="", upload_destination="", target='0.0.0.0'):
+def server_loop(port='', execute='', command='', upload_destination='', target=''):
 
     try:
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.bind((target, port))
         server.listen(5)
+        print 'server has successfully bound to %s %s' % (target, port)
 
     except socket.error as sock_error:
         print "failed to start server with error: ", sock_error
 
     while True:
         client_socket, addr = server.accept()
-
         # spin off a thread to handle our new client
-        client_thread = threading.Thread(target=client_handler, args=(client_socket,upload_destination, execute, command))
+        print 'creating new thread to handle clients'
+        kwargs={'client_socket':client_socket,
+                'upload_destination':upload_destination,
+                'execute':execute,
+                'command':command}
+        client_thread = threading.Thread(target=client_handler, kwargs=kwargs)
+
         client_thread.start()
 
 
-
 # if we don't listen we are a client....make it so.
-def client_sender(buffer):
+def client_sender(buffer, target, port):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
         # connect to our target host
         client.connect((target, port))
-
+        print 'client connected to %s %s' % (target,port)
         # if we detect input from stdin send it
         # if not we are going to wait for the user to punch some in
 
@@ -143,7 +137,7 @@ def client_sender(buffer):
                 recv_len = len(data)
                 response += data
 
-                if "xxxXXXxxx" or '<BHP:#>' in response:
+                if "xxxXXXxxx" or '<BHP:#>' in response:  # check for user defined delimiter
                     break
 
             print response,
@@ -181,13 +175,13 @@ def usage():
     sys.exit(0)
 
 
-def argument_parser():
-    args = dict("listen":"False",
-                "command":"False"",
-                "upload":"False",
-                "execute":"",
-                "target":"",
-                "port":"")
+def parse_and_execute():
+    listen = False
+    command = False
+    execute = ""
+    target = ""
+    upload_destination = ""
+    port = '0'
 
     if not len(sys.argv[1:]):
         usage()
@@ -226,22 +220,18 @@ def argument_parser():
         buffer = sys.stdin.read()
 
         # send data off
-        client_sender(buffer)
+        client_sender(buffer, target, port)
 
         # we are going to listen and potentially
     # upload things, execute commands and drop a shell back
     # depending on our command line options above
     if listen:
-        args = dict(opts)  # create a dictionary for the funtion call
-        server_loop(port=args["-p"],
-                    execute=args["-e"],
-                    command=args["-c"],
-                    upload_destination=args["-u"],
-                    target=args["-t"])
+        print "upload destination is ", upload_destination
+        server_loop(port, execute, command, upload_destination, target)
 
 
 def main():
-    argument_parser()
+    parse_and_execute()
 
 
 main()
