@@ -1,5 +1,20 @@
 #!/opt/local/bin/python2.7
 
+#####################################################################################################################
+#  Refactoring a RAT/netcat emulation script from the book Black Hat Python.
+#  The code was a bit dirty so I'm changing a few things around. 
+#  First thing done was to remove a buggy socket.recv() call. 
+#  Up next: 
+#  1) Refactoring code to remove reliance of functions on global vars, and instead calling them with **kwargs/dicts+
+#     adding some defaults to the functions definitions 
+#  2) adding new features:
+#            i.  local port forwarding/proxying
+#            ii. post exploitation enumeration fuctions
+#####################################################################################################################
+
+
+
+
 import sys
 import socket
 import getopt
