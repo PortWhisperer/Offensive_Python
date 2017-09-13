@@ -10,7 +10,8 @@
 #  2) adding new features:
 #            i.  local port forwarding/proxying
 #            ii. post exploitation enumeration fuctions
-#  3) Refactor code to replace socket and threading with twisted. Also consider select.select().
+#  3) Refactor code to replace socket and threading with twisted.
+#     (Also consider select.select() [http://beej.us/guide/bgnet/].
 #####################################################################################################################
 
 
