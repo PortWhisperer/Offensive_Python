@@ -9,7 +9,7 @@
 #     adding some defaults to the functions definitions  #done 9/13/17
 #  2) adding new features:
 #            i.  local port forwarding/proxying
-#            ii. post exploitation enumeration fuctions
+#            ii. post exploitation enumeration functions
 #  3) Refactor code to replace socket and threading with twisted.
 #     (Also consider select.select() [http://beej.us/guide/bgnet/].
 #####################################################################################################################
