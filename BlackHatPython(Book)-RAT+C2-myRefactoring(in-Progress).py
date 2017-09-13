@@ -6,7 +6,7 @@
 #  First thing done was to remove a buggy socket.recv() call. 
 #  Up next: 
 #  1) Refactoring code to remove reliance of functions on global vars, and instead calling them with **kwargs/dicts+
-#     adding some defaults to the functions definitions 
+#     adding some defaults to the functions definitions  #done 9/13/17
 #  2) adding new features:
 #            i.  local port forwarding/proxying
 #            ii. post exploitation enumeration fuctions
