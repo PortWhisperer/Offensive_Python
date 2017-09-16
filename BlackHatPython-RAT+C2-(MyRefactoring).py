@@ -5,12 +5,13 @@
 #  The code was a bit dirty so I'm changing a few things around. 
 #  First thing done was to redesign a buggy socket.recv() call. 
 #  Up next: 
-#  1) Refactoring code to remove reliance of functions on global vars, and instead calling them with **kwargs/dicts+
-#     adding some defaults to the functions definitions  #done 9/13/17
+#  1) Refactoring code:
+#            i. remove reliance of functions on global vars, and instead call them with **kwargs/dicts
+#            ii. add defaults to functions def headers to increase flexibility  #done 9/13/17
 #  2) adding new features:
 #            i.  local port forwarding/proxying
 #            ii. post exploitation enumeration functions
-#  3) Refactor code to replace socket and threading with twisted.
+#  3) Refactor code to replace the use of the `socket` and `threading` modules with twisted.
 #     (Also consider select.select() [http://beej.us/guide/bgnet/].
 #####################################################################################################################
 
