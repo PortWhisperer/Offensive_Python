@@ -3,12 +3,13 @@
 import subprocess
 
 def addsudoer():
-    subprocess.check_output(['/usr/sbin/useradd' '-m' '-p' '9btoor', 'root9b'])
-###    subprocess.check_output(['/usr/sbin/useradd' '-m' '-p' '9btoor', '-s', '/bin/bash' 'root9b'])
+    subprocess.check_output(['/usr/sbin/useradd', '-M', # don't create home dir
+                             '-G', 'sudo',              # group
+                             '-p', '9btoor',            # pass
+                             'root9b',                  # user
+                             '-s', '/bin/bash'])         # shell
 
-    subprocess.check_output(['/usr/sbin/usermod', '-aG', 'sudo', 'root9b'])
-
-#def add sshuser():
-
+def add sshuser():
+    subprocess.check_output(    )
 
 addsudoer()
