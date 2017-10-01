@@ -2,6 +2,20 @@
 # PURPOSE: this script quickly adds a sudoer to the system and ensures the
 # user has ssh access. Wave good-bye to non interactive shells
 
+#ERROR ENCOUNTERED:
+error='''
+~/g/Offensive_Python ❯❯❯ sudo python add_sudo_ssh_user.py 
+Traceback (most recent call last):
+  File "add_sudo_ssh_user.py", line 25, in <module>
+    addsudoer()
+  File "add_sudo_ssh_user.py", line 14, in addsudoer
+    '-s', '/bin/bash')          # set shell to bash
+  File "/usr/lib/python2.7/subprocess.py", line 212, in check_output
+    process = Popen(stdout=PIPE, *popenargs, **kwargs)
+TypeError: __init__() got multiple values for keyword argument 'stdout'  
+'''
+###
+
 
 import subprocess
 
