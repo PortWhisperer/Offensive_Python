@@ -1,0 +1,1 @@
+# Nmap 7.60 scan initiated Sat Sep 30 18:04:24 2017 as: nmap -vv --reason -sV -sC -Pn --min-rate=400 -T4 --script-timeout 10m -p- -oN results/10.3.3.42/0_tcp_nmap.txt -oX results/10.3.3.42/0_tcp_nmap.xml 10.3.3.42
